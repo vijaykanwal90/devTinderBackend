@@ -51,7 +51,7 @@ profileRouter.patch("/profile/edit",userAuth,async(req,res)=>{
         data: loggedInUser,
     });
 } catch (error) {
-    // console.log("user not found")
+    console.log("some error while profile updation")
     res.status(500).send("User updatation failed " + error.message)
     
 }

@@ -24,6 +24,7 @@ try {
         // res.status(200).send("connections fetched successfully")
         // const data = ConnectionRequest.map((row)=> row.fromUserId)
         // res.json({message:"success", connection})
+        // console.log("to check userId " + connection)
         res.json({message:"success",connection})
 
 
@@ -38,9 +39,9 @@ userRouter.get("/user/received",userAuth, async(req,res)=>{
         const connection = await ConnectionRequest.find({
             toUserId: loggedInUser._id,
             status:"interested",
-        }).populate("fromUserId",["firstName","lastName"])
+        }).populate("fromUserId",["firstName","lastName","photoUrl","about"])
 
-        console.log(connection);
+        // console.log(" the connection lists are : " + connection);
         res.json({message:"success",connection})
     }
     catch(error){

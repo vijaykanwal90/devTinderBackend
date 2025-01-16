@@ -33,7 +33,8 @@ const userSchema = new mongoose.Schema({
         type:String
       },
       age:{
-        type:Number
+        type:Number,
+        default:18
       },
       photoUrl:{
         type: String,

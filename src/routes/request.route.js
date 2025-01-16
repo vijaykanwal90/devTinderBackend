@@ -106,6 +106,7 @@ requestRouter.post(
 requestRouter.post("/reviewConnectionRequest/:status/:requestId",userAuth,async(req,res)=>{
   try{
     // what i am going to do here
+    console.log("on reviewing the connection request")
       const loggedInUser = req.user;
       const {status,requestId} = req.params;
       console.log(status)
