@@ -110,7 +110,8 @@ app.get("/feed",userAuth, async(req,res)=>{
     ).select("firstName lastName photoUrl about skills gender")
     .skip(skip)
     .limit(limit)
-        res.send(users)
+        // res.send(users)
+        res.json({message:"success",data:users})
     } catch (error) {
         res.status(400).send("something went wrong" + error.message)
         
