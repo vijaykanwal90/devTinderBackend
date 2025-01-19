@@ -114,7 +114,7 @@ requestRouter.post("/reviewConnectionRequest/:status/:requestId",userAuth,async(
       console.log(requestId)
       const allowedStatus = ["rejected","accepted"]
       if(!allowedStatus.includes(status)){
-        return res.status(400).send("request is "+ status)
+        return res.status(400).json({message:"request is ", status})
       }
       const connection = await ConnectionRequest.findOne({
         // _id:mongoose.Types.ObjectId(requestId),
@@ -134,7 +134,7 @@ requestRouter.post("/reviewConnectionRequest/:status/:requestId",userAuth,async(
       res.json({message:"connection request " + status,data})
   }
   catch(error){
-    res.status(400).send(error.message + "error while reviewing the requests")
+    res.status(400).json({error : error.message + "error while reviewing the requests"})
   }
 })
 module.exports = requestRouter;

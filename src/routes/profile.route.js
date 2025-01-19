@@ -15,7 +15,7 @@ profileRouter.get("/profile",userAuth ,async(req,res)=>{
             throw new Error("User not found")
         }
 
-        res.status(200).send(user);
+        res.status(200).json({message:"success",data:user})
     }
     catch(error){
         res.status(400).send(error + "something went wrong")
@@ -45,14 +45,12 @@ profileRouter.patch("/profile/edit",userAuth,async(req,res)=>{
     // console.log()
     await loggedInUser.save()
     // res.status(200).send(`${loggedInUser.firstName} your Profile updated successfully`)
-    res.json({
-        status: 200,
-        message:`${loggedInUser.firstName} your Profile updated successfully`,
-        data: loggedInUser,
-    });
+    
+    res.status(200).json({message:"success",data:loggedInUser})
+
 } catch (error) {
     console.log("some error while profile updation")
-    res.status(500).send("User updatation failed " + error.message)
+    res.status(500).json({message:"User updatation failed " , error:error.message})
     
 }
 })
