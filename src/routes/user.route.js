@@ -3,37 +3,79 @@ const userRouter = express.Router()
 const User = require("../models/user.model")
 const {userAuth} = require("../middlewares/auth.middleware");
 const ConnectionRequest = require("../models/connectionRequest.model");
-userRouter.get("/user/connections",userAuth,async(req,res)=>{
-try {
-        const loggedInUser = req.user;
-        // console.log(loggedInUser)
-        // res.json({message:success},toUser)
-        const connection = await ConnectionRequest.find({
-            $or:[
-                {   toUserId:loggedInUser._id,
-                    status:"accepted"},
-                    {   fromUserId:loggedInUser._id,
-                        status:"accepted",}
-            ]
+// userRouter.get("/user/connections",userAuth,async(req,res)=>{
+// try {
+//         const loggedInUser = req.user;
+//         // console.log(loggedInUser)
+//         // res.json({message:success},toUser)
+//         const connection = await ConnectionRequest.find({
+//             $or:[
+//                 {toUserId:loggedInUser._id,status:"accepted"},
+//                 {fromUserId:loggedInUser._id, status:"accepted",}
+//             ]
          
-        }).populate("fromUserId",["firstName","lastName","photoUrl","about"])
+//         })
+//     //    .populate({
+//     //     path:"fromUserId",
+//     //     select:["firstName","lastName","about","photoUrl"],
+//     //     match:{loggedInUser._id:fromUserId}
+//     //    })
+//     //    .populate({
+//     //     path:"toUserId",
+//     //     select:["firstName","lastName","about","photoUrl"],
+//     //     match:{loggedInUser?._id:toUserId}
+//     //    })
 
-        if(!connection){
-            console.log("no connection found")
+
+//         if(!connection){
+//             console.log("no connection found")
+//         }
+//         // console.log("the connection details are " + connection)
+//         // res.status(200).send("connections fetched successfully")
+//         // const data = ConnectionRequest.map((row)=> row.fromUserId)
+//         // res.json({message:"success", connection})
+//         // console.log("to check userId " + connection)
+//         res.json({message:"success",connection})
+
+
+
+// } catch (error) {
+//         res.status(500).json({message:"Error while fetching the connections"})
+// }
+// })
+userRouter.get("/user/connections", userAuth, async (req, res) => {
+    try {
+      const loggedInUser = req.user;
+  
+      const connections = await ConnectionRequest.find({
+        $or: [
+          { toUserId: loggedInUser._id, status: "accepted" },
+          { fromUserId: loggedInUser._id, status: "accepted" }
+        ]
+      }).populate("fromUserId", ["firstName", "lastName", "about", "photoUrl"])
+        .populate("toUserId", ["firstName", "lastName", "about", "photoUrl"]);
+  
+      // Dynamically adjust the response based on which side the logged-in user is
+      const formattedConnections = connections.map((conn) => {
+        if (conn.toUserId.equals(loggedInUser._id)) {
+          return {
+            connection: conn.fromUserId,  // Show the fromUserId's details
+            relationship: "You received the connection"
+          };
+        } else {
+          return {
+            connection: conn.toUserId,  // Show the toUserId's details
+            relationship: "You sent the connection"
+          };
         }
-        // console.log("the connection details are " + connection)
-        // res.status(200).send("connections fetched successfully")
-        // const data = ConnectionRequest.map((row)=> row.fromUserId)
-        // res.json({message:"success", connection})
-        // console.log("to check userId " + connection)
-        res.json({message:"success",connection})
-
-
-
-} catch (error) {
-        res.json({message:"Error while fetching the connections"})
-}
-})
+      });
+  
+      res.json({ message: "success", connection: formattedConnections });
+    } catch (error) {
+      res.status(500).json({ message: "Error while fetching the connections" });
+    }
+  });
+  
 userRouter.get("/feed",userAuth, async(req,res)=>{
     //  all users card except  
     // profile of  his own
