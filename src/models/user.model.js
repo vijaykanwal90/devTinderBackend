@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
       },
       photoUrl:{
         type: String,
-        default:"http://surl.li/hlfrje"
+        default:"https://cdn-icons-png.flaticon.com/512/21/21104.png"
       },
       gender:{
         type:String,

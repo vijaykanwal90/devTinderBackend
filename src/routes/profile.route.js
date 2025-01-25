@@ -8,7 +8,7 @@ const { validateProfileEditData } = require("../utils/validations")
 // const {userAuthh} = userAuth
 profileRouter.get("/profile",userAuth ,async(req,res)=>{
     try{
-        // console.log("in profile section")
+        console.log("in profile section")
         const user = req.user;
 
         if(!user){
