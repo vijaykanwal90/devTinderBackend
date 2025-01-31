@@ -32,6 +32,7 @@ profileRouter.patch("/profile/edit",userAuth,async(req,res)=>{
     // const data = req.body;
     // console.log(data)
     try{
+        console.log("profile edit")
         const formData = req.body;
         console.log(formData)
         if(!validateProfileEditData(formData)){
