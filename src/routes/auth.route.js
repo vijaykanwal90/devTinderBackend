@@ -47,7 +47,7 @@ authRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // console.log(email);
+    console.log(email);
 
     const user = await User.findOne({ email });
     // console.log("find one error ")
