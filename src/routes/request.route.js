@@ -4,8 +4,7 @@ const { userAuth } = require("../middlewares/auth.middleware");
 const ConnectionRequest  = require("../models/connectionRequest.model")
 const requestRouter = express.Router();
 const mongoose = require("mongoose")
-requestRouter.post(
-  "/sendConnectionRequest/:status/:toUser",
+requestRouter.post("/sendConnectionRequest/:status/:toUser",
   userAuth,
   async (req, res) => {
     try {
