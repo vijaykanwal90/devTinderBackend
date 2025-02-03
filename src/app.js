@@ -159,11 +159,13 @@ app.patch("/userUpdate/:id", async(req,res)=>{
 
 
 // app.use("/user",)
+const PORT = 3000
+console.log(PORT)
 connectDB()
 .then(()=>{
     console.log("datbase connected succefully")
-    app.listen(3000,()=>{
-        console.log("server is successfully listening on port 3000")
+    app.listen(PORT,()=>{
+        console.log(`server is successfully listening on port ${PORT}`)
     })
 })
 .catch(()=>{
