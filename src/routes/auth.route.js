@@ -47,7 +47,7 @@ authRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log("in login")
   try {
-    console.log(email);
+    // console.log(email);
 
     const user = await User.findOne({ email });
     // console.log("find one error ")
@@ -60,8 +60,9 @@ authRouter.post("/login", async (req, res) => {
     const token = await user.getJWT();
     // console.log(token)
     if (!checkPassword) {
-      return res.status(401).send("Invalid password");
-      // throw new Error("invalid password");
+      // console.log("in invalid password")
+      // return res.status(401).send("Invalid password");
+      throw new Error("invalid password");
     }
     res.cookie("token", token);
     // res.cookie("newToken","VijayKanwal")
@@ -73,8 +74,14 @@ authRouter.post("/login", async (req, res) => {
     });
   // res.status(200).send( user, token);
   } catch (error) {
+    if (error.message === "Invalid email") {
+      return res.status(401).send("Invalid email");
+    }
+    if (error.message === "invalid password") {
+      return res.status(401).send("invalid password");
+    }
     return res
-      .status(400)
+      .status(501)
       .json({ message: "user login failed  ", error: error.message });
   }
 });
