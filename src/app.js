@@ -39,6 +39,11 @@ var corsOptions = {
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials:true
 }
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://3.109.56.20");
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+  });
 app.use(cors(corsOptions))
 
 app.use("/api",authRouter)
