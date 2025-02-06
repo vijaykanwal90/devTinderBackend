@@ -60,7 +60,8 @@ authRouter.post("/login", async (req, res) => {
     const token = await user.getJWT();
     // console.log(token)
     if (!checkPassword) {
-      throw new Error("invalid password");
+      return res.status(401).send("Invalid password");
+      // throw new Error("invalid password");
     }
     res.cookie("token", token);
     // res.cookie("newToken","VijayKanwal")
