@@ -41,10 +41,10 @@ var corsOptions = {
 }
 app.use(cors(corsOptions))
 
-app.use("/api/",authRouter)
-app.use("/api/",profileRouter)
-app.use("/api/",requestRouter)
-app.use("/api/",userRouter)
+app.use("/api",authRouter)
+app.use("/api",profileRouter)
+app.use("/api",requestRouter)
+app.use("/api",userRouter)
 
 
 
