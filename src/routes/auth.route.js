@@ -43,7 +43,14 @@ authRouter.post("/signup", async (req, res) => {
       .json({ message: "user registration failed  ", error: error.message });
   }
 });
-authRouter.post("/login", async (req, res) => {
+
+
+  authRouter.post('/login', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Origin', 'https://dev-tinder-ui-five.vercel.app');
+
+    
+
   const { email, password } = req.body;
   console.log("in login")
   try {
