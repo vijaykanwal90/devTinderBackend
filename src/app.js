@@ -19,6 +19,7 @@ app.use(cookieParser())
 var corsOptions = {
     origin:'https://dev-tinder-ui-five.vercel.app',
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    'Access-Control-Allow-Credentials': true,
     credentials:true
 }
 
