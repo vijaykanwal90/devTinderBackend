@@ -15,17 +15,21 @@ const ConnectionRequest = require("./models/connectionRequest.model.js");
 
 
 
-app.use(cors({
-    credentials: true, 
-    origin: 'https://dev-tinder-ui-five.vercel.app'
-    }));
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", 'https://dev-tinder-ui-five.vercel.app');
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
-});
+const corsOptions = {
+    credentials: true, // Enable credentials sharing (cookies, authorization headers)
+    origin: 'https://dev-tinder-ui-five.vercel.app', // Frontend origin
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], // Allowed methods
+  };
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", 'https://dev-tinder-ui-five.vercel.app');
+//     res.header("Access-Control-Allow-Credentials", true);
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+//     next();
+// });
 // app.use(cors({
 //     credentials: true, 
 //     origin: 'http://localhost:5173',
@@ -40,7 +44,7 @@ app.use(function(req, res, next) {
 //     next();
 // });
 // app.all('*',cors())
-app.options('*', cors());
+// app.options('*', cors());
 // app.use((req, res, next) => {
 //     res.header("Access-Control-Allow-Origin", 'http://localhost:5173');
 //     // res.header("Access-Control-Allow-Credentials", true);
