@@ -51,7 +51,9 @@ app.use("/api/", authRouter);
 app.use("/api/", profileRouter);
 app.use("/api/", requestRouter);
 app.use("/api/", userRouter);
-
+app.get("/", (req, res) => {
+    res.send("Welcome to DevTinder Backend");
+});
 // Get user by email
 app.get("/user", async (req, res) => {
     const useremail = req.body.email;
