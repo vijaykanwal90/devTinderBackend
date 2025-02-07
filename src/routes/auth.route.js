@@ -6,7 +6,6 @@ const User = require("../models/user.model");
 const { userAuth } = require("../middlewares/auth.middleware");
 // const {userAuth} = userAuth
 const bcrypt = require("bcryptjs");
-authRouter.all('*',cors())
 authRouter.post("/signup", async (req, res) => {
   // console.log(email)
   try {

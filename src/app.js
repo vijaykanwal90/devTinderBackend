@@ -45,6 +45,8 @@ app.use(function(req, res, next) {
 // });
 
 // Route handling
+app.all('*',cors())
+
 app.use("/api/", authRouter);
 app.use("/api/", profileRouter);
 app.use("/api/", requestRouter);
