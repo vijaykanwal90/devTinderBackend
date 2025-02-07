@@ -1,160 +1,100 @@
-const express = require("express")
-const connectDB = require("./config/database")
-const app = express()
+const express = require("express");
+const connectDB = require("./config/database");
+const app = express();
 const User = require("./models/user.model.js");
-const cookieParser = require("cookie-parser")
-const cors = require('cors')
-const {userAuth }= require("./middlewares/auth.middleware.js")
-// const {userAuth} = require("./middlewares/auth.middleware.js")
-const authRouter = require("./routes/auth.route.js")
-const profileRouter = require("./routes/profile.route.js")
-const requestRouter = require("./routes/request.route.js")
+const cookieParser = require("cookie-parser");
+const cors = require('cors');
+const { userAuth } = require("./middlewares/auth.middleware.js");
+const authRouter = require("./routes/auth.route.js");
+const profileRouter = require("./routes/profile.route.js");
+const requestRouter = require("./routes/request.route.js");
 const userRouter = require("./routes/user.route.js");
 const ConnectionRequest = require("./models/connectionRequest.model.js");
-// always ensure to connect database first then start server
 
-
+// Middleware for JSON and cookies
 app.use(express.json());
-app.use(cookieParser())
-// var corsOptions = {
-    
-// }
+app.use(cookieParser());
 
+// CORS configuration
 app.use(cors({
-    origin: 'https://dev-tinder-ui-five.vercel.app',
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], // Include OPTIONS
-    allowedHeaders: ['Content-Type', 'Authorization'], // Add custom headers if needed
-    credentials: true,
+    // origin: 'http://localhost:5173',
+    //   // Frontend origin
+    origin:'https://dev-tinder-ui-five.vercel.app',
+    // methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],  // Allowed HTTP methods
+    // allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
+    credentials: true  // Allow credentials (cookies, tokens, etc.)
 }));
-app.options('*', cors());
 
-app.use("/",authRouter)
-app.use("/",profileRouter)
-app.use("/",requestRouter)
-app.use("/",userRouter)
+// Handle preflight requests (OPTIONS)
+// app.options('*', (req, res) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//     res.setHeader('Access-Control-Allow-Credentials', 'true');
+//     res.sendStatus(204);  // No content for preflight request
+// });
 
+// Route handling
+app.use("/api/", authRouter);
+app.use("/api/", profileRouter);
+app.use("/api/", requestRouter);
+app.use("/api/", userRouter);
 
-
-// get user by email
-
-app.get("/user", async (req,res)=>{
+// Get user by email
+app.get("/user", async (req, res) => {
     const useremail = req.body.email;
-    try{
-        const user = await User.findOne({email:useremail})
-        res.send(user);
-
-    }
-    catch(error){
-        res.status(400).send("something went wrong")
-    }
-
-})
-
-
-app.get("/user/:id", async (req,res)=>{
-    const userId = req.params.id;
-    try{
-        const user = await User.findById(userId)
-        res.send(user);
-
-    }
-    catch(error){
-        res.status(400).send("something went wrong")
-    }
-
-})
-// feed api
-
-
-// update the user
-
-app.patch("/userUpdate/:id", async(req,res)=>{
-    const userId = req.params?.id;
-    // console.log(userId)
-    const data = req.body;
-    // console.log("Received data:", data);
-    // console.log("Object keys:", Object.keys(data));
-
-    // console.log(data)
-   
-    // console.log(user)
-    
-
-    // const isUpdateAllowed = Object.keys(data).every(k=>)
-// "id":"67418039b38041c13e8af19a",
-    // "email":"alia22t@gmail.com"
-    // "firstName":"Virat ",
     try {
-    //     const allowedUpdates = ["age","gender"]
-    //     // console.log(typeof(allowedUpdates[0])
-    //     const keyss = Object.keys(data)
-    //     console.log(keyss)
-    //     const isUpdateAllowed = Object.keys(data).every( (k)=>{
-    //         // console.log(typeof(k))
-    //        allowedUpdates.includes(k)
-    //     //    console.log(res)
-        
-    // })
-    // console.log(allowedUpdates)
-    // console.log(isUpdateAllowed)
-    // if(!isUpdateAllowed){
-
-    //     // res.status(400).send("update not allowed")
-    //     throw new Error("isUpdateAllowed is false")
-    // }
-        const user = await User.findByIdAndUpdate({_id:userId},data,{
-            returnDocument:"after",
-            runValidators:true
-        })
-        if(!user){
-            // console.log("user not found");
-        res.status(404).send("User not found")
-
-        }
-        if(data.skills.length> 10){
-            throw new Error("too many skills are addedd")
-        }
-        res.send(user)
+        const user = await User.findOne({ email: useremail });
+        res.send(user);
     } catch (error) {
-        // console.log("user not found")
-        res.status(500).send("User updatation failed " + error.message)
-        
+        res.status(400).send("Something went wrong");
     }
-})
+});
 
-// app.use("/",(req,res,next)=>{
-//     console.log("home route")
-//     // res.send("home res")
-//     // next()
-//     // next()
-// },(req,res,next)=>{
-//     console.log("user route")
-//     // res.send("user respone ") 
-//     // next()
-// })
+// Get user by ID
+app.get("/user/:id", async (req, res) => {
+    const userId = req.params.id;
+    try {
+        const user = await User.findById(userId);
+        res.send(user);
+    } catch (error) {
+        res.status(400).send("Something went wrong");
+    }
+});
 
+// Update user
+app.patch("/userUpdate/:id", async (req, res) => {
+    const userId = req.params.id;
+    const data = req.body;
+    try {
+        const user = await User.findByIdAndUpdate(
+            { _id: userId },
+            data,
+            {
+                returnDocument: "after",
+                runValidators: true
+            }
+        );
+        if (!user) {
+            res.status(404).send("User not found");
+        } else if (data.skills.length > 10) {
+            throw new Error("Too many skills are added");
+        }
+        res.send(user);
+    } catch (error) {
+        res.status(500).send("User updatation failed: " + error.message);
+    }
+});
 
-
-
-
-
-
-
-
-
-
-
-
-// app.use("/user",)
-const PORT = 3000
-console.log(PORT)
+// Server and database setup
+const PORT = 3000;
 connectDB()
-.then(()=>{
-    console.log("datbase connected succefully")
-    app.listen(PORT,()=>{
-        console.log(`server is successfully listening on port ${PORT}`)
+    .then(() => {
+        console.log("Database connected successfully");
+        app.listen(PORT, () => {
+            console.log(`Server is successfully listening on port ${PORT}`);
+        });
     })
-})
-.catch(()=>{
-    console.log("some error occured during connection ")
-})
+    .catch(() => {
+        console.log("Some error occurred during connection");
+    });
