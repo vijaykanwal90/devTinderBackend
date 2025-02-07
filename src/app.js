@@ -21,8 +21,13 @@ const corsOptions = {
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], // Allowed methods
   };
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-
+app.options('*', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://dev-tinder-ui-five.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.status(200).end();  // Send 200 OK response for preflight
+  });
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", 'https://dev-tinder-ui-five.vercel.app');
 //     res.header("Access-Control-Allow-Credentials", true);
