@@ -21,11 +21,12 @@ app.use(cookieParser())
 // }
 
 app.use(cors({
-    origin:'https://dev-tinder-ui-five.vercel.app',
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-
-    credentials:true
-}))
+    origin: 'https://dev-tinder-ui-five.vercel.app',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], // Include OPTIONS
+    allowedHeaders: ['Content-Type', 'Authorization'], // Add custom headers if needed
+    credentials: true,
+}));
+app.options('*', cors());
 
 app.use("/api",authRouter)
 app.use("/api",profileRouter)
