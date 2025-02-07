@@ -34,7 +34,7 @@ const ConnectionRequest = require("./models/connectionRequest.model.js");
 app.use(express.json());
 app.use(cookieParser())
 var corsOptions = {
-    origin:'http://43.204.235.234',
+    origin:'*',
     // allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials:true
