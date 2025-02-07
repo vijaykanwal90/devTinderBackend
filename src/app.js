@@ -20,9 +20,11 @@ app.use(cors({
     // origin: 'http://localhost:5173',
     //   // Frontend origin
     origin:'https://dev-tinder-ui-five.vercel.app',
-    // methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],  // Allowed HTTP methods
-    // allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers
-    credentials: true  // Allow credentials (cookies, tokens, etc.)
+    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+    "preflightContinue": false,
+    optionsSuccessStatus: 200,
+    credentials:'true',
+
 }));
 
 // Handle preflight requests (OPTIONS)
