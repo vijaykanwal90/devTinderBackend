@@ -74,7 +74,7 @@ authRouter.post('/login', async (req, res) => {
     res.cookie("token", token);
     // res.cookie("newToken","VijayKanwal")
     // const userData = await user.json();
-  return res.header("Access-Control-Allow-Origin", 'https://dev-tinder-ui-five.vercel.app').res.status(200).json({
+  return res.status(200).json({
       message: "User logged in successfully",
       data: user,
       token: token,
