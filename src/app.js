@@ -34,7 +34,7 @@ const ConnectionRequest = require("./models/connectionRequest.model.js");
 app.use(express.json());
 app.use(cookieParser())
 var corsOptions = {
-    origin:'*',
+    origin:'https://dev-tinder-ui-five.vercel.app',
     // allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials:true
