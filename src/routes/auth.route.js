@@ -45,7 +45,7 @@ authRouter.post("/signup", async (req, res) => {
 });
 
 
-  authRouter.post('/login', async (req, res) => {
+authRouter.post('/login', async (req, res) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Origin', 'https://dev-tinder-ui-five.vercel.app');
 

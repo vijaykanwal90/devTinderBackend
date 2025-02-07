@@ -13,37 +13,15 @@ const userRouter = require("./routes/user.route.js");
 const ConnectionRequest = require("./models/connectionRequest.model.js");
 // always ensure to connect database first then start server
 
-// app.post("/signup", async (req,res)=>{
-//         // const {firstName,lastName,email, password,age,gender} = req.body;
-//         const userObj = {
-//                 firstName:"Vijay",
-//                 lastName:"Kanwal",
-//                 emailId:"vijay@gmail.com",
-//                 age:22,
-//                 password:"1234321",
-//                 gender:"Male"
-
-//         }
-//         // creating a new instinct of User
-//         const user = new User(userObj);
-//         await user.save();
-//         res.send("user added successfully")
-
-// })
 
 app.use(express.json());
 app.use(cookieParser())
 var corsOptions = {
     origin:'https://dev-tinder-ui-five.vercel.app',
-    // allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials:true
 }
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "http://3.109.56.20");
-//     res.header("Access-Control-Allow-Credentials", "true");
-//     next();
-//   });
+
 app.use(cors(corsOptions))
 
 app.use("/api",authRouter)
