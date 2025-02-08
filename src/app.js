@@ -15,19 +15,19 @@ const ConnectionRequest = require("./models/connectionRequest.model.js");
 
 
 
-const corsOptions = {
-    credentials: true, // Enable credentials sharing (cookies, authorization headers)
-    origin: 'https://dev-tinder-ui-five.vercel.app', // Frontend origin
-    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], // Allowed methods
-  };
-app.use(cors(corsOptions));
-app.options('*', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://dev-tinder-ui-five.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.status(200).end();  // Send 200 OK response for preflight
-  });
+// const corsOptions = {
+//     credentials: true, // Enable credentials sharing (cookies, authorization headers)
+//     origin: 'https://dev-tinder-ui-five.vercel.app', // Frontend origin
+//     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], // Allowed methods
+//   };
+// app.use(cors(corsOptions));
+// app.options('*', (req, res) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'https://dev-tinder-ui-five.vercel.app');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+//     res.setHeader('Access-Control-Allow-Credentials', 'true');
+//     res.status(200).end();  // Send 200 OK response for preflight
+//   });
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", 'https://dev-tinder-ui-five.vercel.app');
 //     res.header("Access-Control-Allow-Credentials", true);
@@ -35,11 +35,11 @@ app.options('*', (req, res) => {
 //     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
 //     next();
 // });
-// app.use(cors({
-//     credentials: true, 
-//     origin: 'http://localhost:5173',
-//     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-//     }));
+app.use(cors({
+    credentials: true, 
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+    }));
 
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", 'http://localhost:5173');
