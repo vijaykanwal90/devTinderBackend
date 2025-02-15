@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
         required:true,
         unique:true,
         
-        lowercase:true,
+      lowercase:true,
         trim:true,
         validate(value){
           if(!validator.isEmail(value)){
@@ -48,6 +48,18 @@ const userSchema = new mongoose.Schema({
             throw new Error ("Gender data is not valid")
           }
         }
+      },
+      isPremium:{
+        type:Boolean,
+        default:false
+      },
+      membershipType:{
+        type:String,
+        enum:["silver","gold"]
+      },
+      membershipValidity:{
+        type:Date
+
       },
       about:{
         type:String,

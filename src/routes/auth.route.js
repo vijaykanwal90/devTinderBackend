@@ -61,14 +61,15 @@ res.setHeader("Access-Control-Allow-Headers", "content-type");
     if (!user) {
       throw new Error("Invalid email");
     }
-    // console.log(user.password)
-    // const value = "helohgfglfhgdkhflkghdflbvfvkjdfbgdfgkjdfgkfh";
+    // console.log("at login check")
     const checkPassword = await user.verifyPassword(password);
     const token = await user.getJWT();
     // console.log(token)
     if (!checkPassword) {
       // console.log("in invalid password")
       // return res.status(401).send("Invalid password");
+    // console.log("at login check2")
+
       throw new Error("invalid password");
     }
     res.cookie("token", token);

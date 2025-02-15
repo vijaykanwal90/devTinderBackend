@@ -9,7 +9,11 @@ const authRouter = require("./routes/auth.route.js");
 const profileRouter = require("./routes/profile.route.js");
 const requestRouter = require("./routes/request.route.js");
 const userRouter = require("./routes/user.route.js");
+const paymentRouter = require("./routes/payment.route.js");
 const ConnectionRequest = require("./models/connectionRequest.model.js");
+const initializeSocket = require('./utils/socket.js');
+const http= require('http');
+const server = http.createServer(app);
 
 // Middleware for JSON and cookies
 
@@ -40,6 +44,7 @@ app.use(cors({
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     }));
+initializeSocket(server);
 
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", 'http://localhost:5173');
@@ -63,6 +68,7 @@ app.use("/api/", authRouter);
 app.use("/api/", profileRouter);
 app.use("/api/", requestRouter);
 app.use("/api/", userRouter);
+app.use("/api/",paymentRouter);
 app.get("/", (req, res) => {
     res.send("Welcome to DevTinder Backend");
 });
@@ -117,7 +123,7 @@ const PORT = 3000;
 connectDB()
     .then(() => {
         console.log("Database connected successfully");
-        app.listen(PORT, () => {
+        server.listen(PORT, () => {
             console.log(`Server is successfully listening on port ${PORT}`);
         });
     })
