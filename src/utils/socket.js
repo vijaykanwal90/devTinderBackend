@@ -1,7 +1,7 @@
 const socket = require('socket.io');
 
 const initializeSocket = (server) => {
-    console.log("initializing socket");
+    // console.log("initializing socket");
     const io = socket(server, {
         cors:{
             origin:"http://localhost:5173",
@@ -12,7 +12,7 @@ const initializeSocket = (server) => {
             // console.log(targetUserId)
             // console.log("joining chat",userId,targetUserId);
             const roomId = [userId,targetUserId].sort().join("_");
-            console.log(firstName + " " + "joined room");
+            // console.log(firstName + " " + "joined room");
             socket.join(roomId);
 
         })
@@ -23,7 +23,7 @@ const initializeSocket = (server) => {
                 firstName,
                 text
             })
-                console.log(firstName  + " is sending message",text);
+                // console.log(firstName  + " is sending message",text);
 
         })
         socket.on("disconnect",()=>{ })

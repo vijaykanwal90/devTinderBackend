@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
         type:Number,
         default:18
       },
+      location:{
+        type:String,
+        default:"India"
+      },
       photoUrl:{
         type: String,
         default:"https://cdn-icons-png.flaticon.com/512/21/21104.png"

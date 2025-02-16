@@ -8,7 +8,7 @@ const { validateProfileEditData } = require("../utils/validations")
 // const {userAuthh} = userAuth
 profileRouter.get("/profile",userAuth ,async(req,res)=>{
     try{
-        console.log("in profile section")
+        // console.log("in profile section")
         const user = req.user;
 
         if(!user){
@@ -34,14 +34,14 @@ profileRouter.patch("/profile/edit",userAuth,async(req,res)=>{
     try{
         console.log("profile edit")
         const formData = req.body;
-        console.log(formData)
+        // console.log(formData)
         if(!validateProfileEditData(formData)){
-            return res.status(400).send(" update edit profile data")
+            return res.status(400).send(" on update edit profile data")
         }
     
-    console.log("in the edit profile section")
+    // console.log("in the edit profile section")
     const loggedInUser = req.user;
-    console.log(formData)
+    // console.log(formData)
     Object.keys(formData).forEach((key) => (loggedInUser[key] = formData[key]))
     // console.log()
     await loggedInUser.save()
@@ -50,7 +50,7 @@ profileRouter.patch("/profile/edit",userAuth,async(req,res)=>{
     res.status(200).json({message:"success",data:loggedInUser})
 
 } catch (error) {
-    console.log("some error while profile updation")
+    // console.log("some error while profile updation")
     res.status(500).json({message:"User updatation failed " , error:error.message})
     
 }
