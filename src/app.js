@@ -17,20 +17,28 @@ const server = http.createServer(app);
 
 // Middleware for JSON and cookies
 
+Headers('Access-Control-Allow-Origin', '*');
+Headers('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+Headers('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+Headers('Access-Control-Allow-Credentials', true);
+Headers('Access-Control-Max-Age', 3600);
+Headers('Access-Control-Expose-Headers', 'Content-Range, X-Content-Range');
+
 
 app.use(cors({
     credentials: true, 
-    // origin: 'https://dev-tinder-ui-eight.vercel.app',
-    origin:true,
+    origin: 'https://dev-tinder-ui-eight.vercel.app',
+    // origin:true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-    enablePreflight: true,
+    // enablePreflight: true,
     maxAge: 3600,
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Content-Range', 'X-Content-Range'],
-    preflightContinue: false,
-    optionsSuccessStatus: 204
-    
+    maxAge: 3600
+  
+
     }));
+
 app.options('*',cors())
 initializeSocket(server);
 
