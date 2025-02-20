@@ -23,7 +23,7 @@ const server = http.createServer(app);
 
 app.use(cors({
     credentials: true, 
-    origin: 'https://dev-tinder-backend-mu.vercel.app',
+    origin: 'https://dev-tinder-ui-eight.vercel.app',
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     enablePreflight: true
     }));
