@@ -27,7 +27,7 @@ app.use(cors({
     // enablePreflight: true,
     maxAge: 3600,
     allowedHeaders: ['Content-Type', 'Authorization'],
-    exposedHeaders: ['Content-Range', 'X-Content-Range'],
+    
     maxAge: 3600
   
 
