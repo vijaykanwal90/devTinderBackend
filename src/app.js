@@ -25,7 +25,9 @@ app.use(cors({
     credentials: true, 
     origin: 'https://dev-tinder-backend-mu.vercel.app',
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+    enablePreflight: true
     }));
+app.options('*',cors())
 initializeSocket(server);
 
 
