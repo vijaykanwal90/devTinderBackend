@@ -19,49 +19,16 @@ const server = http.createServer(app);
 
 
 
-// const corsOptions = {
-//     credentials: true, // Enable credentials sharing (cookies, authorization headers)
-//     origin: 'https://dev-tinder-ui-five.vercel.app', // Frontend origin
-//     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], // Allowed methods
-//   };
-// app.use(cors(corsOptions));
-// app.options('*', (req, res) => {
-//     res.setHeader('Access-Control-Allow-Origin', 'https://dev-tinder-ui-five.vercel.app');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-//     res.setHeader('Access-Control-Allow-Credentials', 'true');
-//     res.status(200).end();  // Send 200 OK response for preflight
-//   });
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", 'https://dev-tinder-ui-five.vercel.app');
-//     res.header("Access-Control-Allow-Credentials", true);
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-//     next();
-// });
+// export const BASE_URL = "/api"
+
 app.use(cors({
     credentials: true, 
-    origin: 'http://localhost:5173',
+    origin: 'https://dev-tinder-backend-mu.vercel.app',
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     }));
 initializeSocket(server);
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", 'http://localhost:5173');
-//     res.header("Access-Control-Allow-Credentials", true);
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-//     next();
-// });
-// app.all('*',cors())
-// app.options('*', cors());
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", 'http://localhost:5173');
-//     // res.header("Access-Control-Allow-Credentials", true);
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-//     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-//     next();
-//     })
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/", authRouter);
