@@ -51,7 +51,7 @@ app.use("/api/", profileRouter);
 app.use("/api/", requestRouter);
 app.use("/api/", userRouter);
 app.use("/api/",paymentRouter);
-app.get("/", (req, res) => {
+app.get("/user", (req, res) => {
     console.log("dsfksfhk")
     res.send("Welcome to DevTinder Backend");
 });
