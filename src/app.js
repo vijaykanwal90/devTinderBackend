@@ -18,14 +18,18 @@ const server = http.createServer(app);
 // Middleware for JSON and cookies
 
 
-
-// export const BASE_URL = "/api"
-
 app.use(cors({
     credentials: true, 
-    origin: 'https://dev-tinder-ui-eight.vercel.app',
+    // origin: 'https://dev-tinder-ui-eight.vercel.app',
+    origin:true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-    enablePreflight: true
+    enablePreflight: true,
+    maxAge: 3600,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Range', 'X-Content-Range'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+    
     }));
 app.options('*',cors())
 initializeSocket(server);
@@ -42,50 +46,50 @@ app.get("/", (req, res) => {
     res.send("Welcome to DevTinder Backend");
 });
 // Get user by email
-app.get("/user", async (req, res) => {
-    const useremail = req.body.email;
-    try {
-        const user = await User.findOne({ email: useremail });
-        res.send(user);
-    } catch (error) {
-        res.status(400).send("Something went wrong");
-    }
-});
+// app.get("/user", async (req, res) => {
+//     const useremail = req.body.email;
+//     try {
+//         const user = await User.findOne({ email: useremail });
+//         res.send(user);
+//     } catch (error) {
+//         res.status(400).send("Something went wrong");
+//     }
+// });
 
-// Get user by ID
-app.get("/user/:id", async (req, res) => {
-    const userId = req.params.id;
-    try {
-        const user = await User.findById(userId);
-        res.send(user);
-    } catch (error) {
-        res.status(400).send("Something went wrong");
-    }
-});
+// // Get user by ID
+// app.get("/user/:id", async (req, res) => {
+//     const userId = req.params.id;
+//     try {
+//         const user = await User.findById(userId);
+//         res.send(user);
+//     } catch (error) {
+//         res.status(400).send("Something went wrong");
+//     }
+// });
 
 // Update user
-app.patch("/userUpdate/:id", async (req, res) => {
-    const userId = req.params.id;
-    const data = req.body;
-    try {
-        const user = await User.findByIdAndUpdate(
-            { _id: userId },
-            data,
-            {
-                returnDocument: "after",
-                runValidators: true
-            }
-        );
-        if (!user) {
-            res.status(404).send("User not found");
-        } else if (data.skills.length > 10) {
-            throw new Error("Too many skills are added");
-        }
-        res.send(user);
-    } catch (error) {
-        res.status(500).send("User updatation failed: " + error.message);
-    }
-});
+// app.patch("/userUpdate/:id", async (req, res) => {
+//     const userId = req.params.id;
+//     const data = req.body;
+//     try {
+//         const user = await User.findByIdAndUpdate(
+//             { _id: userId },
+//             data,
+//             {
+//                 returnDocument: "after",
+//                 runValidators: true
+//             }
+//         );
+//         if (!user) {
+//             res.status(404).send("User not found");
+//         } else if (data.skills.length > 10) {
+//             throw new Error("Too many skills are added");
+//         }
+//         res.send(user);
+//     } catch (error) {
+//         res.status(500).send("User updatation failed: " + error.message);
+//     }
+// });
 
 // Server and database setup
 const PORT = 3000;
