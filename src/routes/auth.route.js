@@ -2,9 +2,9 @@ const express = require("express");
 const authRouter = express.Router();
 const { validateSignupdata } = require("../utils/validations");
 const User = require("../models/user.model");
-// const {userAuth} = require("../middlewares/auth.middleware")
+
 const { userAuth } = require("../middlewares/auth.middleware");
-// const {userAuth} = userAuth
+
 const bcrypt = require("bcryptjs");
 authRouter.post("/signup", async (req, res) => {
   // console.log(email)
@@ -45,7 +45,7 @@ authRouter.post("/signup", async (req, res) => {
 });
 
 
-authRouter.post('/login', async (req, res) => {
+authRouter.post('/login', userAuth,async (req, res) => {
 //   res.setHeader("Access-Control-Allow-Origin", "*")
 // res.setHeader("Access-Control-Allow-Credentials", "true");
 // res.setHeader("Access-Control-Max-Age", "1800");

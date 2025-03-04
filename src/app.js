@@ -11,17 +11,19 @@ const requestRouter = require("./routes/request.route.js");
 const userRouter = require("./routes/user.route.js");
 const paymentRouter = require("./routes/payment.route.js");
 const ConnectionRequest = require("./models/connectionRequest.model.js");
+
 const initializeSocket = require('./utils/socket.js');
 const http= require('http');
 const server = http.createServer(app);
 
 // Middleware for JSON and cookies
+const originURL = process.env.ORIGIN || 'http://localhost:3000';
 
-
-
+require('dotenv').config();
+// console.log(process.env.ORIGIN)
 app.use(cors({
     credentials: true, 
-    origin: 'https://dev-tinder-ui-eight.vercel.app',
+    origin: originURL,
     // origin:true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     // enablePreflight: true,
@@ -39,7 +41,7 @@ app.use(cors({
 // Headers('Access-Control-Allow-Credentials', true);
 // Headers('Access-Control-Max-Age', 3600);
 // Headers('Access-Control-Expose-Headers', 'Content-Range, X-Content-Range');
-console.log("entrypont")
+
 // app.options('*',cors())
 initializeSocket(server);
 
@@ -51,8 +53,10 @@ app.use("/api/", profileRouter);
 app.use("/api/", requestRouter);
 app.use("/api/", userRouter);
 app.use("/api/",paymentRouter);
-app.get("/user", (req, res) => {
+app.get("/", (req, res) => {
+    
     console.log("dsfksfhk")
+    
     res.send("Welcome to DevTinder Backend");
 });
 // Get user by email
@@ -102,7 +106,7 @@ app.get("/user", (req, res) => {
 // });
 
 // Server and database setup
-const PORT = 3000;
+const PORT = process.env.PORT || 5000;
 connectDB()
     .then(() => {
         console.log("Database connected successfully");
@@ -110,6 +114,7 @@ connectDB()
             console.log(`Server is successfully listening on port ${PORT}`);
         });
     })
-    .catch(() => {
+    .catch((error) => {
+        console.log(error)
         console.log("Some error occurred during connection");
     });
