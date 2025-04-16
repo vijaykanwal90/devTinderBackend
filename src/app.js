@@ -55,9 +55,9 @@ app.use("/api/", userRouter);
 app.use("/api/",paymentRouter);
 app.get("/", (req, res) => {
     
-    // console.log("dsfksfhk")
+    console.log("dsfksfhk")
     
-    // res.send("Welcome to DevTinder Backend");
+    res.send("Welcome to DevTinder Backend");
 });
 // Get user by email
 // app.get("/user", async (req, res) => {
