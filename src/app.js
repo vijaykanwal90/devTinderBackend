@@ -17,9 +17,10 @@ const http= require('http');
 const server = http.createServer(app);
 
 // Middleware for JSON and cookies
-const originURL = process.env.ORIGIN || 'http://localhost:3000';
-
 require('dotenv').config();
+
+const originURL = process.env.ORIGIN || 'http://localhost:3000';
+console.log(originURL)
 // console.log(process.env.ORIGIN)
 app.use(cors({
     credentials: true, 
