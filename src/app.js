@@ -11,11 +11,12 @@ const paymentRouter = require('./routes/payment.route');
 const ConnectionRequest = require('./models/connectionRequest.model');
 const initializeSocket = require('./utils/socket');
 const http = require('http');
+const app = express();
+
 const server = http.createServer(app);
 require('dotenv').config();
 
 // Initialize express app
-const app = express();
 
 // ✅ CORS Setup
 const allowedOrigins = ['https://dev-tinder-ui-seven.vercel.app'];
