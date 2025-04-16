@@ -31,7 +31,7 @@ app.use(cors({
     maxAge: 3600,
     allowedHeaders: ['Content-Type', 'Authorization'],
     
-    maxAge: 3600
+    // maxAge: 3600
   
 
     }));
@@ -46,6 +46,7 @@ app.use(cors({
 // app.options('*',cors())
 initializeSocket(server);
 
+app.options('*', cors());
 
 app.use(express.json());
 app.use(cookieParser());
