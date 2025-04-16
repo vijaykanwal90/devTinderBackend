@@ -46,7 +46,19 @@ app.use(cors({
 // app.options('*',cors())
 initializeSocket(server);
 
-app.options('*', cors());
+const corsOptions = {
+    origin: originURL,
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    maxAge: 3600
+  };
+  
+  app.use(cors(corsOptions));
+  
+  // Explicitly handle preflight OPTIONS
+  app.options('*', cors(corsOptions));
+  
 
 app.use(express.json());
 app.use(cookieParser());
