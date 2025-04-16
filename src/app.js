@@ -47,7 +47,7 @@ app.use("/api/", userRouter);
 app.use("/api/", paymentRouter);
 
 app.get("/", (req, res) => {
-  res.send("Welcome to DevTinder Backend");
+  res.send("Welcome to DevTinder Backend2");
 });
 
 // ✅ Start Server & Connect DB
