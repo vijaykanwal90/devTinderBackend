@@ -20,7 +20,7 @@ require('dotenv').config();
 // ✅ CORS Setup - Move this before routes
 const allowedOrigins = ['https://dev-tinder-ui-seven.vercel.app'];
 
-app.use(cors({
+app.use(cors({  
   origin: function (origin, callback) {
     // Allow requests from frontend or if origin is undefined (i.e., no origin)
     if (!origin || allowedOrigins.includes(origin)) {
