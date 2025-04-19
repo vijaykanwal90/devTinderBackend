@@ -1,0 +1,40 @@
+name: First build
+
+on: 
+  push:
+    branches:
+      - main
+
+env:
+  CI: false
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ./backend
+        env:
+          MONGO_URL: ${{ secrets.MONGO_URL }}
+
+      - name: Start the server
+        run: npm start
+        
+        env:
+          REACT_APP_LOCATIONIQ_KEY: ${{ secrets.REACT_APP_LOCATIONIQ_KEY }}
+          MONGO_URL: ${{ secrets.MONGO_URL }}
+          PORT: ${{ secrets.PORT }}
+          ORIGIN: ${{ secrets.ORIGIN }}
+          
