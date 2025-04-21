@@ -63,7 +63,7 @@ res.setHeader("Access-Control-Allow-Headers", "content-type");
     }
     // console.log("at login check")
     const checkPassword = await user.verifyPassword(password);
-    const token = await user.getJWT();
+    // const token = await user.getJWT();
     // console.log(token)
     if (!checkPassword) {
       // console.log("in invalid password")
@@ -72,13 +72,18 @@ res.setHeader("Access-Control-Allow-Headers", "content-type");
 
       throw new Error("invalid password");
     }
-    res.cookie("token", token);
+    const token = jwt.sign(
+      { id: user._id },
+      "devTinder@123",
+      { expiresIn: "24h" }
+    )
+    // res.cookie("token", token);
     // res.cookie("newToken","VijayKanwal")
     // const userData = await user.json();
   return res.status(200).json({
       message: "User logged in successfully",
       data: user,
-      token: token,
+      token
     });
   // res.status(200).send( user, token);
   } catch (error) {

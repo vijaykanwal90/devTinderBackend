@@ -1,43 +1,40 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
-// const cookieParser = require("cookie-parser")
-// const jwt = require("jsonwebtoken")
-const userAuth = async(req,res,next)=>{
-    try {
-        // const cookies = req.cookies;
-        // console.log(cookies)
-        // const {token} = req.cookies;
-        // console.log("token is " + token)
-        const authHeader = req.headers.authorization;
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+const User = require('../models/user.model');
 
-        // Check if token exists in the Authorization header
-        if (!authHeader || !authHeader.startsWith("Bearer ")) {
-          return res.status(401).json({ message: "No token provided" });
-        }
-      
-        // Extract token from header
-        const token = authHeader.split(" ")[1];
-        if(!token){
-        
-           return  res.status(401).send("You are not logged in please login")
-        }
-        const decodedJwt = await jwt.verify(token,"devTinder@123")
-        // console.log(token)
-        const {id} = decodedJwt;
-        // console.log(id)
-        const user = await User.findById({_id:id});
-        if(!user){
-            throw new Error("user not found")
-        }
-        req.user = user;
-        next();
-    } catch (error) {
-        res.status(400).send("Error : " + error.message)
+/**
+ * Middleware to protect routes by verifying JWT.
+ */
+async function userAuth(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Authorization header missing or malformed' });
     }
-   
+
+    const token = authHeader.split(' ')[1];
+    // Verify token and get payload
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Support both `userId` and `id` keys
+    const userId = payload.userId || payload.id;
+    if (!userId) {
+      return res.status(401).json({ message: 'Invalid token payload' });
+    }
+
+    // Fetch user and exclude sensitive fields
+    const user = await User.findById(userId).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Attach user to request object
+    req.user = user;
+    next();
+  } catch (err) {
+    console.error('Auth error:', err);
+    return res.status(401).json({ message: 'Invalid or expired token' });
+  }
 }
 
-module.exports = {
-    userAuth
-
-}
+module.exports = { userAuth };
