@@ -27,7 +27,7 @@ jobs:
         uses: bahmutov/npm-install@v1
         
       - name: Start the server
-        run: npm start
+        run: npx nodemon src/app.js
         
         env:
           REACT_APP_LOCATIONIQ_KEY: ${{ secrets.REACT_APP_LOCATIONIQ_KEY }}
