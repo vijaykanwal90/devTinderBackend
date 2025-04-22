@@ -4,7 +4,7 @@ const { validateSignupdata } = require("../utils/validations");
 const User = require("../models/user.model");
 
 const { userAuth } = require("../middlewares/auth.middleware");
-
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 authRouter.post("/signup", async (req, res) => {
   // console.log(email)
@@ -31,7 +31,7 @@ authRouter.post("/signup", async (req, res) => {
       });
 
       await user.save();
-
+      console.log("user created successfully")
       res.status(201).json({
         message: "User created successfully",
         data: user,
@@ -45,22 +45,23 @@ authRouter.post("/signup", async (req, res) => {
 });
 
 
-authRouter.post('/login', userAuth,async (req, res) => {
+authRouter.post('/login',async (req, res) => {
 //   res.setHeader("Access-Control-Allow-Origin", "*")
 // res.setHeader("Access-Control-Allow-Credentials", "true");
 // res.setHeader("Access-Control-Max-Age", "1800");
-res.setHeader("Access-Control-Allow-Headers", "content-type");
+// res.setHeader("Access-Control-Allow-Headers", "content-type");
 // res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
   const { email, password } = req.body;
-  console.log("in login")
+  // console.log("in login sdff")
   try {
     // console.log(email);
 
-    const user = await User.findOne({ email });
+  const user = await User.findOne({ email });
     // console.log("find one error ")
     if (!user) {
       throw new Error("Invalid email");
     }
+    // console.log("user is there")
     // console.log("at login check")
     const checkPassword = await user.verifyPassword(password);
     // const token = await user.getJWT();
@@ -72,14 +73,18 @@ res.setHeader("Access-Control-Allow-Headers", "content-type");
 
       throw new Error("invalid password");
     }
+    // console.log("password is correct")
     const token = jwt.sign(
       { id: user._id },
       "devTinder@123",
       { expiresIn: "24h" }
     )
+    // console.log("token is generated")
+    console.log(token)
     // res.cookie("token", token);
     // res.cookie("newToken","VijayKanwal")
     // const userData = await user.json();
+    console.log("logged in successfully")
   return res.status(200).json({
       message: "User logged in successfully",
       data: user,

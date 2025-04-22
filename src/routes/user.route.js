@@ -43,7 +43,7 @@ const ConnectionRequest = require("../models/connectionRequest.model");
 //         res.status(500).json({message:"Error while fetching the connections"})
 // }
 // })
-userRouter.get("/user/connections", userAuth, async (req, res) => {
+userRouter.get("/connections", userAuth, async (req, res) => {
     try {
       const loggedInUser = req.user;
   
@@ -115,7 +115,7 @@ userRouter.get("/feed",userAuth, async(req,res)=>{
         
     }
 })
-userRouter.get("/user/received",userAuth, async(req,res)=>{
+userRouter.get("/received",userAuth, async(req,res)=>{
     try{
         const loggedInUser = req.user;
         const connection = await ConnectionRequest.find({

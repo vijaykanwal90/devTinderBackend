@@ -16,36 +16,28 @@ const app = express();
 const server = http.createServer(app);
 require('dotenv').config();
 
-// Initialize express app
-// ✅ CORS Setup - Move this before routes
-const allowedOrigins = ['https://dev-tinder-ui-seven.vercel.app'];
-
-app.use(cors({  
-  origin: function (origin, callback) {
-    // Allow requests from frontend or if origin is undefined (i.e., no origin)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // Allow cookies, headers, etc.
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-// Extra headers middleware if needed
+// CORS setup - must come BEFORE routes
+const allowedOrigins = ['http://localhost:5173', 'https://dev-tinder-ui-seven.vercel.app'];
+console.log("on backend")
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://dev-tinder-ui-seven.vercel.app');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', true);
-  next();
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Allow requests from any origin
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200); // Respond to preflight requests
+  } else {
+    next();
+  }
 });
 
-// Middlewares for JSON and cookies parsing
+console.log("o backend2")
+
+// Handle preflight requests (place this BEFORE routes)
+// app.options('*', cors());
+// Then add your middleware and routes
 app.use(express.json());
 app.use(cookieParser());
+
 
 // Connect to the database
 connectDB()
@@ -60,19 +52,23 @@ connectDB()
 initializeSocket(server);
 
 // Define your routes here
-app.use('/api', authRouter);
-app.use('/api', profileRouter);
-app.use('/api', requestRouter);
-app.use('/api', userRouter);
-app.use('/api', paymentRouter);
+
+app.use('/api/auth', authRouter);
+app.use('/api/profile', profileRouter);
+app.use('/api/request', requestRouter);
+app.use('/api/user', userRouter);
+app.use('/api/payment', paymentRouter);
 
 // Home route (for testing)
 app.get('/', (req, res) => {
   res.send('Welcome to DevTinder Backend');
 });
 
+// Handle preflight requests (OPTIONS)
+// app.options('*', cors());  // This ensures preflight requests are allowed
+
 // Server configuration
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
