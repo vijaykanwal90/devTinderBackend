@@ -27,7 +27,7 @@ app.use((req, res, next) => {
     res.sendStatus(200); // Respond to preflight requests
   } else {
     next();
-  }
+}
 });
 
 console.log("o backend2")
