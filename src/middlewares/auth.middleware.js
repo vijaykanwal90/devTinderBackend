@@ -7,14 +7,14 @@ const User = require('../models/user.model');
  */
 async function userAuth(req, res, next) {
   try {
-    console.log("one auth middleware")
+    // console.log("one auth middleware")
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ message: 'Authorization header missing or malformed' });
     }
 
     const token = authHeader.split(' ')[1];
-    console.log(token)
+    // console.log(token)
     // Verify token and get payload
     const payload = jwt.verify(token, 'devTinder@123');
 

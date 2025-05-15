@@ -17,20 +17,27 @@ const server = http.createServer(app);
 require('dotenv').config();
 
 // CORS setup - must come BEFORE routes
+// const allowedOrigins = ['http://localhost:5173', 'https://dev-tinder-ui-seven.vercel.app'];
+// console.log("on backend")
 const allowedOrigins = ['http://localhost:5173', 'https://dev-tinder-ui-seven.vercel.app'];
-console.log("on backend")
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Allow requests from any origin
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed methods
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200); // Respond to preflight requests
-  } else {
-    next();
-}
-});
 
-console.log("o backend2")
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+
+
+// console.log("o backend2")
 
 // Handle preflight requests (place this BEFORE routes)
 // app.options('*', cors());
