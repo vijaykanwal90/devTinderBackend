@@ -9,6 +9,7 @@ const requestRouter = require('./routes/request.route');
 const userRouter = require('./routes/user.route');
 const paymentRouter = require('./routes/payment.route');
 const ConnectionRequest = require('./models/connectionRequest.model');
+const messageRouter = require('./routes/message.route');
 const initializeSocket = require('./utils/socket');
 const http = require('http');
 const app = express();
@@ -65,6 +66,8 @@ app.use('/api/dashboard', profileRouter);
 app.use('/api/request', requestRouter);
 app.use('/api/user', userRouter);
 app.use('/api/payment', paymentRouter);
+app.use('/api/message', messageRouter);
+
 
 // Home route (for testing)
 app.get('/', (req, res) => {

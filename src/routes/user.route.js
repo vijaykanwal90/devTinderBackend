@@ -43,39 +43,67 @@ const ConnectionRequest = require("../models/connectionRequest.model");
 //         res.status(500).json({message:"Error while fetching the connections"})
 // }
 // })
-userRouter.get("/connections", userAuth, async (req, res) => {
-    try {
-      const loggedInUser = req.user;
-  
-      const connections = await ConnectionRequest.find({
-        $or: [
-          { toUserId: loggedInUser._id, status: "accepted" },
-          { fromUserId: loggedInUser._id, status: "accepted" }
-        ]
-      }).populate("fromUserId", ["firstName", "lastName", "about", "photoUrl"])
-        .populate("toUserId", ["firstName", "lastName", "about", "photoUrl"]);
-  
-      // Dynamically adjust the response based on which side the logged-in user is
-      const formattedConnections = connections.map((conn) => {
-        if (conn.toUserId.equals(loggedInUser._id)) {
-          return {
-            connection: conn.fromUserId,  // Show the fromUserId's details
-            relationship: "You received the connection"
-          };
-        } else {
-          return {
-            connection: conn.toUserId,  // Show the toUserId's details
-            relationship: "You sent the connection"
-          };
-        }
-      });
-  
-      res.json({ message: "success", connection: formattedConnections });
-    } catch (error) {
-      res.status(500).json({ message: "Error while fetching the connections" });
+userRouter.get("/viewConnections", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+
+    const connections = await ConnectionRequest.find({
+      $or: [
+        { toUserId: loggedInUser._id, status: "accepted" },
+        { fromUserId: loggedInUser._id, status: "accepted" }
+      ]
+    }).populate("fromUserId", ["firstName", "lastName", "about", "photoUrl"])
+      .populate("toUserId", ["firstName", "lastName", "about", "photoUrl"]);
+
+    // Dynamically adjust the response based on which side the logged-in user is
+    const formattedConnections = connections.map((conn) => {
+      if (conn.toUserId.equals(loggedInUser._id)) {
+        return {
+          connection: conn.fromUserId,  // Show the fromUserId's details
+          relationship: "You received the connection"
+        };
+      } else {
+        return {
+          connection: conn.toUserId,  // Show the toUserId's details
+          relationship: "You sent the connection"
+        };
+      }
+    });
+
+    res.json({ message: "success", connection: formattedConnections });
+  } catch (error) {
+    res.status(500).json({ message: "Error while fetching the connections" });
+  }
+});
+
+userRouter.get("/chat/:userId", userAuth, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const loggedInUser = req.user;
+    //  console.log(userId)
+    // Prevent viewing own profile
+    if (userId === String(loggedInUser._id)) {
+      return res.status(400).json({ message: "You cannot view your own profile" });
     }
-  });
-  
+
+    // Fetch user by ID and exclude sensitive fields
+    const user = await User.findById(userId).select("firstName lastName about photoUrl");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      message: "Success",
+      user,
+    });
+  } catch (error) {
+    console.error("Error fetching user:", error.message);
+    return res.status(500).json({ message: "Error while fetching user details", error: error.message });
+  }
+});
+
+
 userRouter.get("/feed",userAuth, async(req,res)=>{
     //  all users card except  
     // profile of  his own

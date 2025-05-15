@@ -32,6 +32,7 @@ async function userAuth(req, res, next) {
 
     // Attach user to request object
     req.user = user;
+    console.log("user auth is clear")
     next();
   } catch (err) {
     console.error('Auth error:', err);

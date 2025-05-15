@@ -110,7 +110,7 @@ requestRouter.post("/reviewConnectionRequest/:status/:requestId",userAuth,async(
       const {status,requestId} = req.params;
       console.log(status)
       // const {requestId} = req.params;
-      console.log(requestId)
+      console.log("her is the request id " , requestId)
       const allowedStatus = ["rejected","accepted"]
       if(!allowedStatus.includes(status)){
         return res.status(400).json({message:"request is ", status})
