@@ -20,7 +20,7 @@ require('dotenv').config();
 // CORS setup - must come BEFORE routes
 // const allowedOrigins = ['http://localhost:5173', 'https://dev-tinder-ui-seven.vercel.app'];
 // console.log("on backend")
-const allowedOrigins = ['http://localhost:5173', 'https://dev-tinder-ui-seven.vercel.app'];
+const allowedOrigins = ['http://localhost:5173', 'https://dev-tinder-ui-six.vercel.app'];
 
 app.use(cors({
   origin: function (origin, callback) {
