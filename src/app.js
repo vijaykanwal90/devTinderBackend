@@ -36,7 +36,7 @@ app.use(cors({
   exposedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-
+app.options('*', cors()); // Preflight request handling
 
 // console.log("o backend2")
 
