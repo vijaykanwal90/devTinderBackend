@@ -23,36 +23,39 @@ profileRouter.get("/profile",userAuth ,async(req,res)=>{
     // const {token} = req.cookies;
     
 })
-profileRouter.patch("/profile/edit",userAuth,async(req,res)=>{
-    // const user = req.user;
-    // const {_id} = user;
-    // // console.log(userId)
-    // // console.log(_id)
-    // console.log(req.body)
-    // const data = req.body;
-    // console.log(data)
-    try{
-        console.log("profile edit")
-        const formData = req.body;
-        // console.log(formData)
-        if(!validateProfileEditData(formData)){
-            return res.status(400).send(" on update edit profile data")
+profileRouter.patch('/profile/edit', userAuth, async (req, res) => {
+    try {
+      console.log("→ PATCH /profile/edit called");
+  
+      const formData = req.body;
+      const loggedInUser = req.user;
+  
+      // Validate data
+      if (!validateProfileEditData(formData)) {
+        return res.status(400).json({ message: "Invalid profile data" });
+      }
+  
+      // Update fields
+      Object.keys(formData).forEach((key) => {
+        if (formData[key] !== undefined) {
+          loggedInUser[key] = formData[key];
         }
-    
-    // console.log("in the edit profile section")
-    const loggedInUser = req.user;
-    // console.log(formData)
-    Object.keys(formData).forEach((key) => (loggedInUser[key] = formData[key]))
-    // console.log()
-    await loggedInUser.save()
-    // res.status(200).send(`${loggedInUser.firstName} your Profile updated successfully`)
-    
-    res.status(200).json({message:"success",data:loggedInUser})
-
-} catch (error) {
-    // console.log("some error while profile updation")
-    res.status(500).json({message:"User updatation failed " , error:error.message})
-    
-}
-})
+      });
+  
+      // Save updated user
+      await loggedInUser.save();
+  
+      res.status(200).json({
+        message: "Profile updated successfully",
+        data: loggedInUser
+      });
+  
+    } catch (error) {
+      console.error("Error updating profile:", error.message);
+      res.status(500).json({
+        message: "User update failed",
+        error: error.message
+      });
+    }
+  });
 module.exports = profileRouter
