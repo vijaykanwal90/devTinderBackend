@@ -57,7 +57,9 @@ connectDB()
   });
 
 // Initialize Socket.io
+// console.log("before socket")
 initializeSocket(server);
+// console.log("after socket")
 
 // Define your routes here
 

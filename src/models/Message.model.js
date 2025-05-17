@@ -15,7 +15,7 @@ const messageContentSchema = new Schema({
     ref: 'User',
     required: true,
   }
-}, { _id: false }); // Disable _id for each message object if not needed
+}); // Disable _id for each message object if not needed
 
 const MessageSchema = new Schema({
   senderId: {
