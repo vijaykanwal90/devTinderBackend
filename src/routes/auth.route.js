@@ -80,7 +80,7 @@ authRouter.post('/login',async (req, res) => {
       { expiresIn: "24h" }
     )
     // console.log("token is generated")
-    console.log(token)
+    // console.log(token)
     // res.cookie("token", token);
     // res.cookie("newToken","VijayKanwal")
     // const userData = await user.json();
