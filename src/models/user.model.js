@@ -73,7 +73,17 @@ const userSchema = new mongoose.Schema({
       skills: {
         type: [String],  // Assuming skills should be an array of strings
         
-      }
+      },
+      posts:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"Post",
+        required:true
+      }],
+      comments:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"Comment",
+        required:true
+      }]
       
 },{timestamps:true})
 userSchema.methods.verifyPassword = async function (passwordByUser){
